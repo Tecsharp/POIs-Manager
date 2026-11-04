@@ -6,7 +6,7 @@ import CategoryFilter from '../components/CategoryFilter'
 import PoiListItem from '../components/PoiListItem'
 import PoiDetail from '../components/PoiDetail'
 import { api } from '../lib/api'
-import { DESTINATIONS, typesFor } from '../lib/poiTypes'
+import { DESTINATIONS, typesFor, DEFAULT_CATEGORIES } from '../lib/poiTypes'
 
 export default function Explore() {
   const [params] = useSearchParams()
@@ -15,12 +15,13 @@ export default function Explore() {
     : DESTINATIONS[0]
   const [center, setCenter] = useState(initial)
   const [radius, setRadius] = useState(25)
-  const [cats, setCats] = useState([])
+  const [cats, setCats] = useState(DEFAULT_CATEGORIES)
   const [text, setText] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState(null)
+  const [directions, setDirections] = useState(null)
 
   const search = useCallback(async () => {
     setLoading(true)
@@ -83,7 +84,7 @@ export default function Explore() {
         </div>
 
         <div className="min-h-0 flex-1 overflow-y-auto p-2">
-          {selected && <div className="mb-2"><PoiDetail id={selected} onClose={() => setSelected(null)} /></div>}
+          {selected && <div className="mb-2"><PoiDetail id={selected} onClose={() => { setSelected(null); setDirections(null) }} onDirections={setDirections} /></div>}
           <p className="px-3 pb-1 pt-2 text-[13px] text-label-2" role="status">
             {loading ? 'Buscando…' : error ? '' : `${pois.length} ${pois.length === 1 ? 'lugar' : 'lugares'} en ${radius} km`}
           </p>
@@ -110,6 +111,7 @@ export default function Explore() {
           center={[center.lat, center.lng]}
           zoom={radius > 40 ? 8 : radius > 15 ? 10 : 12}
           radiusKm={radius}
+          directions={directions}
         />
         <p className="pointer-events-none absolute left-1/2 top-3 z-[500] -translate-x-1/2 whitespace-nowrap rounded-full bg-surface/90 px-3.5 py-1.5 text-[12px] text-label-2 shadow-sm ring-1 ring-sep backdrop-blur">
           Toca el mapa para buscar en otro punto
