@@ -1,0 +1,468 @@
+[
+ {
+  "name": "Zócalo de la Ciudad de México",
+  "type": "SPOT",
+  "lat": 19.4326,
+  "lng": -99.1332,
+  "address": "Plaza de la Constitución, Centro Histórico, CDMX",
+  "description": "Corazón histórico de la ciudad, rodeado por la Catedral Metropolitana y Palacio Nacional.",
+  "rating": 4.8
+ },
+ {
+  "name": "Palacio de Bellas Artes",
+  "type": "MUSEUM",
+  "lat": 19.4352,
+  "lng": -99.1412,
+  "address": "Av. Juárez s/n, Centro Histórico, CDMX",
+  "description": "Recinto art déco con murales de Rivera, Orozco y Siqueiros.",
+  "rating": 4.9,
+  "hours": {
+   "open_time": "10:00",
+   "close_time": "18:00",
+   "closed_days": [
+    "monday"
+   ]
+  }
+ },
+ {
+  "name": "Museo Nacional de Antropología",
+  "type": "MUSEUM",
+  "lat": 19.426,
+  "lng": -99.1863,
+  "address": "Av. Paseo de la Reforma s/n, Chapultepec, CDMX",
+  "description": "La colección prehispánica más importante del país. Reserva al menos medio día.",
+  "rating": 4.9,
+  "hours": {
+   "open_time": "09:00",
+   "close_time": "18:00",
+   "closed_days": [
+    "monday"
+   ]
+  },
+  "accepts_cards": true
+ },
+ {
+  "name": "Bosque de Chapultepec",
+  "type": "PARK",
+  "lat": 19.4204,
+  "lng": -99.1819,
+  "address": "Bosque de Chapultepec I Secc., CDMX",
+  "description": "Pulmón verde de la ciudad con lago, castillo y museos.",
+  "rating": 4.7
+ },
+ {
+  "name": "Mirador Torre Latinoamericana",
+  "type": "PHOTO",
+  "lat": 19.4339,
+  "lng": -99.1406,
+  "address": "Eje Central Lázaro Cárdenas 2, Centro, CDMX",
+  "description": "Vista de 360° del Centro Histórico desde el piso 44.",
+  "rating": 4.6,
+  "accepts_cards": true
+ },
+ {
+  "name": "Zona Arqueológica de Teotihuacán",
+  "type": "SPOT",
+  "lat": 19.6925,
+  "lng": -98.8438,
+  "address": "San Juan Teotihuacán, Edo. de México",
+  "description": "Pirámides del Sol y de la Luna. Llega temprano para evitar calor y filas.",
+  "rating": 4.9,
+  "hours": {
+   "open_time": "08:00",
+   "close_time": "17:00"
+  }
+ },
+ {
+  "name": "Gasolinera Autopista México–Pachuca km 42",
+  "type": "GAS_STATION",
+  "lat": 19.784,
+  "lng": -98.976,
+  "address": "Autopista México–Pachuca km 42, Tecámac",
+  "description": "Abierta 24 h, tienda de conveniencia y baños limpios.",
+  "rating": 4.1,
+  "accepts_cards": true
+ },
+ {
+  "name": "Real del Monte",
+  "type": "SPOT",
+  "lat": 20.1386,
+  "lng": -98.6728,
+  "address": "Mineral del Monte, Hidalgo",
+  "description": "Pueblo Mágico minero, cuna del paste. Clima fresco todo el año.",
+  "rating": 4.7
+ },
+ {
+  "name": "Prismas Basálticos",
+  "type": "NATURAL_PARK",
+  "lat": 20.2425,
+  "lng": -98.5519,
+  "address": "Santa María Regla, Huasca de Ocampo, Hidalgo",
+  "description": "Columnas de basalto con cascadas. Ideal para fotos al mediodía.",
+  "rating": 4.6,
+  "hours": {
+   "open_time": "09:00",
+   "close_time": "18:00"
+  }
+ },
+ {
+  "name": "Catedral de Puebla",
+  "type": "CHURCH",
+  "lat": 19.0427,
+  "lng": -98.1981,
+  "address": "Av. 3 Ote. 2, Centro Histórico, Puebla",
+  "description": "Una de las catedrales más bellas de América, con torres de casi 70 m.",
+  "rating": 4.9
+ },
+ {
+  "name": "Gran Pirámide de Cholula",
+  "type": "SPOT",
+  "lat": 19.0575,
+  "lng": -98.302,
+  "address": "San Andrés Cholula, Puebla",
+  "description": "La pirámide de mayor volumen del mundo, coronada por el Santuario de los Remedios.",
+  "rating": 4.8
+ },
+ {
+  "name": "Fonda de Santa Clara",
+  "type": "RESTAURANT",
+  "lat": 19.0461,
+  "lng": -98.1986,
+  "address": "Calle 3 Pte. 920, Centro, Puebla",
+  "description": "Mole poblano y chiles en nogada tradicionales.",
+  "rating": 4.6,
+  "accepts_cards": true,
+  "hours": {
+   "open_time": "09:00",
+   "close_time": "21:00"
+  }
+ },
+ {
+  "name": "Gasolinera Autopista 150D Esperanza",
+  "type": "GAS_STATION",
+  "lat": 18.86,
+  "lng": -97.37,
+  "address": "Autopista Puebla–Córdoba 150D, Esperanza, Puebla",
+  "description": "Última gasolinera antes de las Cumbres de Maltrata. Carga aquí.",
+  "rating": 4.0,
+  "accepts_cards": true
+ },
+ {
+  "name": "Mirador Cumbres de Maltrata",
+  "type": "PHOTO",
+  "lat": 18.8231,
+  "lng": -97.2725,
+  "address": "Autopista 150D, Cumbres de Maltrata, Veracruz",
+  "description": "Vista del valle entre la niebla. Precaución: tramo con curvas y neblina.",
+  "rating": 4.5
+ },
+ {
+  "name": "Pico de Orizaba (Citlaltépetl)",
+  "type": "NATURE_RESERVE",
+  "lat": 19.03,
+  "lng": -97.2683,
+  "address": "Parque Nacional Pico de Orizaba, Puebla/Veracruz",
+  "description": "La montaña más alta de México (5,636 m). Requiere guía para ascenso.",
+  "rating": 4.9
+ },
+ {
+  "name": "Taller Moto & Auto Orizaba",
+  "type": "MECHANICAL_WORKSHOP",
+  "lat": 18.851,
+  "lng": -97.103,
+  "address": "Orizaba, Veracruz",
+  "description": "Mecánica general, frenos y llantas. Atiende motos y autos.",
+  "rating": 4.3,
+  "specialties": [
+   "frenos",
+   "llantas",
+   "suspensión"
+  ],
+  "hours": {
+   "open_time": "08:00",
+   "close_time": "18:00",
+   "closed_days": [
+    "sunday"
+   ]
+  }
+ },
+ {
+  "name": "Cascada de Texolo",
+  "type": "NATURAL_PARK",
+  "lat": 19.4089,
+  "lng": -96.9908,
+  "address": "Xico, Veracruz",
+  "description": "Cascada rodeada de selva, cerca del Pueblo Mágico de Xico.",
+  "rating": 4.7
+ },
+ {
+  "name": "Museo de Antropología de Xalapa",
+  "type": "MUSEUM",
+  "lat": 19.5497,
+  "lng": -96.9286,
+  "address": "Av. Xalapa s/n, Xalapa, Veracruz",
+  "description": "Cabezas colosales olmecas y jardines. Imprescindible en la ruta.",
+  "rating": 4.9,
+  "hours": {
+   "open_time": "09:00",
+   "close_time": "17:00",
+   "closed_days": [
+    "monday"
+   ]
+  }
+ },
+ {
+  "name": "Café de Coatepec",
+  "type": "CAFE",
+  "lat": 19.4527,
+  "lng": -96.9614,
+  "address": "Centro, Coatepec, Veracruz",
+  "description": "Café de altura de la región, tostado local.",
+  "rating": 4.7,
+  "accepts_cards": true
+ },
+ {
+  "name": "Malecón de Veracruz",
+  "type": "SPOT",
+  "lat": 19.2003,
+  "lng": -96.1342,
+  "address": "Paseo del Malecón, Centro, Veracruz",
+  "description": "Paseo frente al puerto con vista a barcos y San Juan de Ulúa.",
+  "rating": 4.6
+ },
+ {
+  "name": "Fuerte de San Juan de Ulúa",
+  "type": "MUSEUM",
+  "lat": 19.2089,
+  "lng": -96.1336,
+  "address": "Islote San Juan de Ulúa, Veracruz",
+  "description": "Fortaleza colonial del siglo XVI en la entrada del puerto.",
+  "rating": 4.6,
+  "hours": {
+   "open_time": "09:00",
+   "close_time": "17:00",
+   "closed_days": [
+    "monday"
+   ]
+  }
+ },
+ {
+  "name": "Gran Café del Portal",
+  "type": "CAFE",
+  "lat": 19.1995,
+  "lng": -96.1388,
+  "address": "Independencia 1187, Centro, Veracruz",
+  "description": "El clásico lechero veracruzano: se pide golpeando el vaso.",
+  "rating": 4.5,
+  "accepts_cards": true
+ },
+ {
+  "name": "Hospital Regional de Veracruz",
+  "type": "HOSPITAL",
+  "lat": 19.181,
+  "lng": -96.142,
+  "address": "20 de Noviembre, Veracruz",
+  "description": "Urgencias 24 h.",
+  "rating": 4.0
+ },
+ {
+  "name": "Templo de Santo Domingo de Guzmán",
+  "type": "CHURCH",
+  "lat": 17.0656,
+  "lng": -96.7233,
+  "address": "Macedonio Alcalá s/n, Centro, Oaxaca",
+  "description": "Barroco novohispano con interior dorado y jardín etnobotánico.",
+  "rating": 4.9
+ },
+ {
+  "name": "Zona Arqueológica de Monte Albán",
+  "type": "SPOT",
+  "lat": 17.0436,
+  "lng": -96.7678,
+  "address": "Monte Albán, Oaxaca",
+  "description": "Antigua capital zapoteca sobre un cerro con vista al valle.",
+  "rating": 4.9,
+  "hours": {
+   "open_time": "08:00",
+   "close_time": "17:00"
+  }
+ },
+ {
+  "name": "Hierve el Agua",
+  "type": "NATURAL_PARK",
+  "lat": 16.8656,
+  "lng": -96.2761,
+  "address": "San Lorenzo Albarradas, Oaxaca",
+  "description": "Cascadas petrificadas y pozas naturales con vista a la sierra.",
+  "rating": 4.7
+ },
+ {
+  "name": "Árbol del Tule",
+  "type": "SPOT",
+  "lat": 17.0466,
+  "lng": -96.6363,
+  "address": "Santa María del Tule, Oaxaca",
+  "description": "Ahuehuete milenario con el tronco más ancho del mundo.",
+  "rating": 4.6
+ },
+ {
+  "name": "Mercado 20 de Noviembre",
+  "type": "RESTAURANT",
+  "lat": 17.0583,
+  "lng": -96.7262,
+  "address": "20 de Noviembre 512, Centro, Oaxaca",
+  "description": "Pasillo de humo: tasajo, cecina y tlayudas a la parrilla.",
+  "rating": 4.6
+ },
+ {
+  "name": "Callejón del Beso",
+  "type": "PHOTO",
+  "lat": 21.0168,
+  "lng": -101.2546,
+  "address": "Callejón del Patrocinio 75, Guanajuato",
+  "description": "Callejón de leyenda donde los balcones casi se tocan.",
+  "rating": 4.5
+ },
+ {
+  "name": "Teatro Juárez",
+  "type": "THEATER",
+  "lat": 21.017,
+  "lng": -101.2531,
+  "address": "De Sopeña s/n, Centro, Guanajuato",
+  "description": "Teatro neoclásico, sede del Festival Cervantino.",
+  "rating": 4.8
+ },
+ {
+  "name": "Parroquia de San Miguel Arcángel",
+  "type": "CHURCH",
+  "lat": 20.9144,
+  "lng": -100.7452,
+  "address": "Plaza Principal, San Miguel de Allende",
+  "description": "Icono neogótico rosa de San Miguel de Allende.",
+  "rating": 4.9
+ },
+ {
+  "name": "Peña de Bernal",
+  "type": "NATURE_RESERVE",
+  "lat": 20.7436,
+  "lng": -99.9419,
+  "address": "Bernal, Ezequiel Montes, Querétaro",
+  "description": "Uno de los monolitos más grandes del mundo. Senderismo hasta la mitad.",
+  "rating": 4.7
+ },
+ {
+  "name": "Acueducto de Querétaro",
+  "type": "SPOT",
+  "lat": 20.5928,
+  "lng": -100.372,
+  "address": "Av. Zaragoza, Querétaro",
+  "description": "74 arcos del siglo XVIII. Luce de noche iluminado.",
+  "rating": 4.6
+ },
+ {
+  "name": "Hotel Boutique Centro Querétaro",
+  "type": "HOTEL",
+  "lat": 20.5926,
+  "lng": -100.3926,
+  "address": "Centro Histórico, Querétaro",
+  "description": "Hotel en casona colonial con estacionamiento cerrado.",
+  "rating": 4.5,
+  "accepts_cards": true
+ },
+ {
+  "name": "Tepoztlán y Pirámide del Tepozteco",
+  "type": "SPOT",
+  "lat": 18.9867,
+  "lng": -99.0997,
+  "address": "Tepoztlán, Morelos",
+  "description": "Pueblo Mágico con subida de 1 h a la pirámide. Lleva agua.",
+  "rating": 4.7
+ },
+ {
+  "name": "Grutas de Cacahuamilpa",
+  "type": "NATURAL_PARK",
+  "lat": 18.6686,
+  "lng": -99.5097,
+  "address": "Carretera Federal 55, Pilcaya, Guerrero",
+  "description": "Enormes cavernas con recorrido guiado de 2 km.",
+  "rating": 4.7,
+  "hours": {
+   "open_time": "10:00",
+   "close_time": "17:00"
+  }
+ },
+ {
+  "name": "Templo de Santa Prisca",
+  "type": "CHURCH",
+  "lat": 18.5569,
+  "lng": -99.6053,
+  "address": "Plaza Borda, Taxco, Guerrero",
+  "description": "Joya del barroco churrigueresco en la ciudad de la plata.",
+  "rating": 4.9
+ },
+ {
+  "name": "Mirador La Peña, Valle de Bravo",
+  "type": "PHOTO",
+  "lat": 19.195,
+  "lng": -100.1316,
+  "address": "La Peña, Valle de Bravo, Edo. de México",
+  "description": "Atardecer sobre la presa y los parapentes.",
+  "rating": 4.8
+ },
+ {
+  "name": "Nevado de Toluca",
+  "type": "NATURE_RESERVE",
+  "lat": 19.1086,
+  "lng": -99.7586,
+  "address": "Área de Protección de Flora y Fauna Nevado de Toluca",
+  "description": "Lagunas del Sol y de la Luna dentro del cráter (4,200 m).",
+  "rating": 4.8
+ },
+ {
+  "name": "Cuetzalan del Progreso",
+  "type": "SPOT",
+  "lat": 20.0186,
+  "lng": -97.5222,
+  "address": "Cuetzalan, Puebla",
+  "description": "Pueblo Mágico en la Sierra Norte, cascadas y neblina.",
+  "rating": 4.8
+ },
+ {
+  "name": "Hotel Camino Real Xalapa",
+  "type": "HOTEL",
+  "lat": 19.537,
+  "lng": -96.91,
+  "address": "Xalapa, Veracruz",
+  "description": "Hotel con estacionamiento techado, a 10 min del museo.",
+  "rating": 4.4,
+  "accepts_cards": true
+ },
+ {
+  "name": "Cajero automático Plaza Américas",
+  "type": "ATM",
+  "lat": 19.166,
+  "lng": -96.12,
+  "address": "Plaza Américas, Boca del Río, Veracruz",
+  "description": "Cajeros de varios bancos dentro de la plaza.",
+  "rating": 4.0
+ },
+ {
+  "name": "Farmacia 24 h Centro Oaxaca",
+  "type": "PHARMACY",
+  "lat": 17.061,
+  "lng": -96.725,
+  "address": "Centro, Oaxaca",
+  "description": "Abierta 24 horas.",
+  "rating": 4.2,
+  "accepts_cards": true
+ },
+ {
+  "name": "Estacionamiento Centro Histórico Puebla",
+  "type": "PARKING",
+  "lat": 19.044,
+  "lng": -98.196,
+  "address": "Centro Histórico, Puebla",
+  "description": "Estacionamiento vigilado 24 h, acepta motos.",
+  "rating": 4.1
+ }
+]

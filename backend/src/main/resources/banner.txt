@@ -1,0 +1,10 @@
+
+  _____    ____    _____    _____
+ |  __ \  / __ \  |_   _|  / ____|
+ | |__) || |  | |   | |   | (___
+ |  ___/ | |  | |   | |    \___ \
+ | |     | |__| |  _| |_   ____) |
+ |_|      \____/  |_____| |_____/
+
+  :: Triburide POIS API - (Spring Boot ${spring-boot.version}) ::
+  :: Propiedad de Tecsharp Network Software S.A.S. (c) 2026 ::

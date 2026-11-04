@@ -1,0 +1,22 @@
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss} %-5level [%logger{0}] %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.tecsharp" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE" />
+    </logger>
+
+    <logger name="org.springframework" level="WARN" />
+    <logger name="org.hibernate" level="WARN" />
+    <logger name="com.zaxxer.hikari" level="WARN" />
+    <logger name="io.netty" level="WARN" />
+    <logger name="org.apache" level="WARN" />
+    <logger name="org.springframework.boot.autoconfigure.security" level="ERROR" />
+
+    <root level="ERROR">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
