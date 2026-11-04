@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
-@Builder
+@Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -44,6 +44,15 @@ public class PoiResponseDTO implements Serializable {
     private Double rating;
     private Boolean verified;
 
+    private Long upvotes;
+    private Long downvotes;
+
+    @JsonProperty("my_vote")
+    private Integer myVote;
+
+    @JsonProperty("created_by")
+    private String createdBy;
+
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
 
@@ -69,6 +78,7 @@ public class PoiResponseDTO implements Serializable {
                 .acceptsCards(poi.getAcceptsCards())
                 .rating(poi.getRating())
                 .verified(poi.getVerified())
+                .createdBy(poi.getCreatedByName())
                 .createdAt(poi.getCreatedAt())
                 .updatedAt(poi.getUpdatedAt())
                 .build();

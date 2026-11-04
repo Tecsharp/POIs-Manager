@@ -4,10 +4,13 @@ import { apiBaseUrl } from '../lib/api'
 import { ALL_TYPES, typeLabel } from '../lib/poiTypes'
 
 const ENDPOINTS = [
-  ['POST', '/pois/route', 'Lugares dentro del corredor de una ruta (polilínea de waypoints).'],
+  ['POST', '/pois/route', 'Lugares dentro del corredor de una ruta, siguiendo la carretera real.'],
   ['GET', '/pois/nearby', 'Lugares en un radio alrededor de un punto.'],
-  ['GET', '/pois/{id}', 'Detalle completo de un lugar (horario, teléfono, especialidades…).'],
+  ['GET', '/pois/{id}', 'Detalle completo de un lugar (horario, teléfono, votos…).'],
+  ['GET', '/pois/directions', 'Ruta por carretera entre dos puntos cualesquiera.'],
   ['GET', '/pois/types', 'Tipos de lugar disponibles.'],
+  ['POST', '/pois', 'Da de alta un lugar. Requiere cuenta.'],
+  ['POST', '/pois/{id}/vote', 'Vota un lugar como útil o no útil. Requiere cuenta.'],
 ]
 
 export default function Docs() {
@@ -93,13 +96,20 @@ export default function Docs() {
   "total": 2,
   "route_length_km": 291.3,
   "buffer_km": 10.0,
+  "routed": true,
+  "route_geometry": [{ "lat": 19.4326, "lng": -99.1332 }, "…"],
   "pois": [
     { "id": "…", "name": "Zócalo de la Ciudad de México", "type": "spot",
-      "lat": 19.4326, "lng": -99.1332, "rating": 4.8, "verified": false, "distance_km": 0.0 }
+      "lat": 19.4326, "lng": -99.1332, "rating": 4.8, "verified": false, "distance_km": 0.0,
+      "upvotes": 12, "downvotes": 1, "created_by": null }
   ],
   "by_type": { "spot": 1, "gas_station": 1 }
 }`} />
         </div>
+        <p className="mt-3 text-[13px] text-label-2">
+          La ruta se calcula sobre la carretera real (OSRM). Si no se puede enrutar, <b>routed</b> es <code className="font-mono">false</code> y
+          <b> route_geometry</b> cae a línea recta entre waypoints, pero la búsqueda de lugares sigue funcionando igual.
+        </p>
       </Section>
 
       <Section title="Lugares cerca de un punto">
@@ -112,6 +122,18 @@ export default function Docs() {
 )
 console.log(res.headers.get("X-RateLimit-Remaining"))
 const { pois } = await res.json()`} />
+      </Section>
+
+      <Section title="Crear y votar lugares">
+        <p className="mb-3 text-[15px] text-label-2">
+          Dar de alta un lugar o votarlo requiere haber iniciado sesión — es una acción de cuenta, no de consulta,
+          así que usa el token de tu sesión (<code className="font-mono">Authorization: Bearer &lt;token&gt;</code>), no tu API key.
+          Los lugares que registra la comunidad quedan marcados con el nombre de quien los agregó; los de Rutea, verificados.
+        </p>
+        <CodeBlock label="curl" code={`curl -X POST ${base}/pois/\${POI_ID}/vote \\
+  -H "Authorization: Bearer $TOKEN" \\
+  -H "Content-Type: application/json" \\
+  -d '{ "value": 1 }'`} />
       </Section>
 
       <Section title="Tipos de lugar">

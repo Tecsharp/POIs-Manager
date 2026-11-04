@@ -5,7 +5,7 @@ import { renderToStaticMarkup } from 'react-dom/server'
 import { categoryOf, typeLabel } from '../lib/poiTypes'
 
 const iconCache = new Map()
-// Marcador estilo Apple Maps: círculo del color de la categoría con borde blanco.
+// Marcador de lugar: círculo del color de la categoría con borde blanco.
 function poiIcon(type, active) {
   const key = `${type}-${active}`
   if (!iconCache.has(key)) {
@@ -25,11 +25,21 @@ function poiIcon(type, active) {
   return iconCache.get(key)
 }
 
+const ROUTE_COLOR = '#1a8a73' // verde-azulado de marca: distingue la ruta del naranja de la interfaz
+const DIRECTIONS_COLOR = '#b84a1f'
+
 const waypointIcon = (n) => L.divIcon({
   className: 'poi-pin',
   iconSize: [24, 24],
   iconAnchor: [12, 12],
-  html: `<div style="width:24px;height:24px;border-radius:999px;background:var(--surface);color:var(--label);border:2.5px solid var(--accent);display:grid;place-items:center;font:600 11px/1 var(--font-sans);box-shadow:0 2px 6px rgba(0,0,0,.25)">${n}</div>`,
+  html: `<div style="width:24px;height:24px;border-radius:999px;background:var(--surface);color:var(--label);border:2.5px solid ${ROUTE_COLOR};display:grid;place-items:center;font:600 11px/1 var(--font-sans);box-shadow:0 2px 6px rgba(0,0,0,.25)">${n}</div>`,
+})
+
+const meIcon = L.divIcon({
+  className: 'poi-pin',
+  iconSize: [20, 20],
+  iconAnchor: [10, 10],
+  html: `<div style="width:20px;height:20px;border-radius:999px;background:${DIRECTIONS_COLOR};border:3px solid var(--surface);box-shadow:0 2px 8px rgba(0,0,0,.35)"></div>`,
 })
 
 function ClickHandler({ onClick }) {
@@ -49,9 +59,20 @@ function FitTo({ points, center, zoom }) {
   return null
 }
 
+/** Encuadra la ruta de "cómo llegar" apenas llega, sin pelear con el FitTo principal. */
+function FitToDirections({ geometry }) {
+  const map = useMap()
+  const key = JSON.stringify(geometry)
+  useEffect(() => {
+    if (geometry && geometry.length > 1) map.fitBounds(L.latLngBounds(geometry), { padding: [64, 64], maxZoom: 15 })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key])
+  return null
+}
+
 export default function PoiMap({
   pois = [], selectedId, onSelect, onMapClick, center = [19.4326, -99.1332], zoom = 11,
-  route, radiusKm, fitPoints, className = '',
+  route, waypoints, radiusKm, fitPoints, directions, className = '',
 }) {
   const markers = useMemo(() => pois.map((p) => (
     <Marker key={p.id} position={[p.lat, p.lng]} icon={poiIcon(p.type, p.id === selectedId)}
@@ -74,13 +95,20 @@ export default function PoiMap({
       <ClickHandler onClick={onMapClick} />
       <FitTo points={fitPoints} center={fitPoints ? null : center} zoom={zoom} />
       {radiusKm && center && (
-        <Circle center={center} radius={radiusKm * 1000} pathOptions={{ color: '#0a84ff', weight: 1.5, fillOpacity: 0.06 }} />
+        <Circle center={center} radius={radiusKm * 1000} pathOptions={{ color: ROUTE_COLOR, weight: 1.5, fillOpacity: 0.06 }} />
       )}
       {route && route.length > 0 && (
         <>
-          <Polyline positions={route} pathOptions={{ color: '#0a84ff', weight: 16, opacity: 0.12, lineCap: 'round', lineJoin: 'round' }} />
-          <Polyline positions={route} pathOptions={{ color: '#0a84ff', weight: 5, lineCap: 'round', lineJoin: 'round' }} />
-          {route.map((p, i) => <Marker key={`wp-${i}`} position={p} icon={waypointIcon(i + 1)} />)}
+          <Polyline positions={route} pathOptions={{ color: ROUTE_COLOR, weight: 16, opacity: 0.12, lineCap: 'round', lineJoin: 'round' }} />
+          <Polyline positions={route} pathOptions={{ color: ROUTE_COLOR, weight: 5, lineCap: 'round', lineJoin: 'round' }} />
+        </>
+      )}
+      {waypoints?.map((p, i) => <Marker key={`wp-${i}`} position={p} icon={waypointIcon(i + 1)} />)}
+      {directions?.geometry?.length > 1 && (
+        <>
+          <FitToDirections geometry={directions.geometry} />
+          <Polyline positions={directions.geometry} pathOptions={{ color: DIRECTIONS_COLOR, weight: 5, opacity: 0.9, dashArray: directions.routed ? undefined : '2 10', lineCap: 'round' }} />
+          {directions.origin && <Marker position={[directions.origin.lat, directions.origin.lng]} icon={meIcon} />}
         </>
       )}
       {markers}

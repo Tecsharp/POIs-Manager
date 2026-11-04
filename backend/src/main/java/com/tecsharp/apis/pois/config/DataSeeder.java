@@ -72,7 +72,7 @@ public class DataSeeder implements ApplicationRunner {
         ObjectMapper mapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         try (InputStream in = new ClassPathResource("seed/pois.json").getInputStream()) {
             List<PoiRequestDTO> pois = mapper.readValue(in, new TypeReference<>() {});
-            pois.forEach(poiService::createPoi);
+            pois.forEach(p -> poiService.createPoi(p, null));
             log.info("{} POIs de ejemplo cargados", pois.size());
         }
     }

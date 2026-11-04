@@ -3,47 +3,51 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* Colores del sistema Apple (HIG). Los valores cambian con la clase .dark en <html>. */
+/* Identidad propia de Rutea: terracota + verde bosque. Oscuro = carbón azulado, no negro puro. */
 :root {
-  --canvas: #f5f5f7;
+  --canvas: #f7f4f0;
   --surface: #ffffff;
-  --surface-2: #fbfbfd;
-  --fill: rgb(120 120 128 / 0.12);
-  --fill-strong: rgb(120 120 128 / 0.2);
-  --label: #1d1d1f;
-  --label-2: #6e6e73;
-  --label-3: #86868b;
-  --sep: rgb(60 60 67 / 0.14);
-  --accent: #0071e3;
-  --accent-hover: #0077ed;
-  --danger: #d70015;
-  --success: #248a3d;
-  --warning: #b25000;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.04), 0 4px 16px rgb(0 0 0 / 0.04);
+  --surface-2: #fbf9f6;
+  --fill: rgb(90 70 55 / 0.07);
+  --fill-strong: rgb(90 70 55 / 0.13);
+  --label: #1c1917;
+  --label-2: #6b6560;
+  --label-3: #938c86;
+  --sep: rgb(40 30 20 / 0.1);
+  --accent: #b84a1f;
+  --accent-hover: #9c3e19;
+  --on-accent: #fff7f2;
+  --brand-2: #1f7a66;
+  --danger: #c22b1f;
+  --success: #1f7a4a;
+  --warning: #a2650a;
+  --shadow: 0 1px 2px rgb(40 20 0 / 0.04), 0 10px 28px -12px rgb(40 20 0 / 0.14);
   color-scheme: light;
 }
 
 .dark {
-  --canvas: #000000;
-  --surface: #1c1c1e;
-  --surface-2: #161617;
-  --fill: rgb(118 118 128 / 0.24);
-  --fill-strong: rgb(118 118 128 / 0.36);
-  --label: #f5f5f7;
-  --label-2: #a1a1a6;
-  --label-3: #86868b;
-  --sep: rgb(84 84 88 / 0.55);
-  --accent: #2997ff;
-  --accent-hover: #47a6ff;
-  --danger: #ff453a;
-  --success: #30d158;
-  --warning: #ff9f0a;
-  --shadow: none;
+  --canvas: #111314;
+  --surface: #191c1e;
+  --surface-2: #1f2224;
+  --fill: rgb(230 220 210 / 0.07);
+  --fill-strong: rgb(230 220 210 / 0.13);
+  --label: #f3efe9;
+  --label-2: #a8a19a;
+  --label-3: #7c7570;
+  --sep: rgb(255 245 235 / 0.09);
+  --accent: #ff8a52;
+  --accent-hover: #ffa06e;
+  --on-accent: #241005;
+  --brand-2: #3ec8a6;
+  --danger: #ff6b5c;
+  --success: #4fd394;
+  --warning: #ffb547;
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 16px 32px -16px rgb(0 0 0 / 0.5);
   color-scheme: dark;
 }
 
 @theme inline {
-  --font-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace;
 
   --color-canvas: var(--canvas);
@@ -57,6 +61,8 @@
   --color-sep: var(--sep);
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-brand-2: var(--brand-2);
   --color-danger: var(--danger);
   --color-success: var(--success);
   --color-warning: var(--warning);
@@ -64,44 +70,48 @@
 
 body {
   @apply bg-canvas text-label font-sans antialiased;
-  font-size: 17px;
-  line-height: 1.47;
-  letter-spacing: -0.022em;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
   font-feature-settings: 'kern';
+  background-image: radial-gradient(circle at 15% -10%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 55%);
+  background-attachment: fixed;
 }
 
-h1, h2, h3 { letter-spacing: -0.03em; font-weight: 600; }
+h1, h2, h3 { letter-spacing: -0.025em; font-weight: 650; }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 6px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 8px; }
 
 @utility btn {
-  @apply inline-flex h-11 cursor-pointer items-center justify-center gap-1.5 rounded-full px-5 text-[15px] font-medium whitespace-nowrap transition-colors duration-200
+  @apply inline-flex h-11 cursor-pointer items-center justify-center gap-1.5 rounded-xl px-5 text-[15px] font-semibold whitespace-nowrap transition-all duration-200
     disabled:cursor-not-allowed disabled:opacity-40;
 }
-.btn-primary { @apply btn bg-accent text-white hover:bg-accent-hover; }
+.btn-primary { @apply btn text-[color:var(--on-accent)] shadow-[0_1px_1px_rgb(0_0_0/0.08),0_6px_16px_-6px_var(--accent)] hover:brightness-[1.06] hover:shadow-[0_1px_1px_rgb(0_0_0/0.08),0_10px_22px_-6px_var(--accent)]; background: linear-gradient(155deg, var(--accent), color-mix(in srgb, var(--accent) 80%, var(--brand-2))); }
 .btn-secondary { @apply btn bg-fill text-label hover:bg-fill-strong; }
 .btn-plain { @apply btn h-auto px-0 text-accent hover:underline; }
 .btn-danger { @apply btn bg-fill text-danger hover:bg-fill-strong; }
 .btn-sm { @apply h-8 px-3.5 text-[13px]; }
 
-.card { @apply rounded-[18px] bg-surface; box-shadow: var(--shadow); }
-.dark .card { @apply ring-1 ring-sep; }
+.card { @apply rounded-2xl bg-surface ring-1 ring-sep; box-shadow: var(--shadow); }
 
 .input {
   @apply h-11 w-full rounded-xl border-0 bg-fill px-3.5 text-[15px] text-label outline-none transition
-    placeholder:text-label-3 focus:ring-4 focus:ring-accent/25;
+    placeholder:text-label-3 focus:bg-surface focus:ring-2 focus:ring-accent/50;
 }
 textarea.input { @apply h-auto py-2.5; }
 select.input { @apply appearance-none; }
 .field-label { @apply mb-1.5 block text-[13px] font-medium text-label-2; }
 
-/* Cápsula estilo iOS: gris neutro; seleccionada = invertida. */
+/* Cápsula de filtro: neutra en reposo, degradado de marca cuando está activa. */
 .capsule {
-  @apply inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-fill px-3.5 text-[13px] font-medium whitespace-nowrap text-label transition-colors duration-200 hover:bg-fill-strong;
+  @apply inline-flex h-9 shrink-0 cursor-pointer items-center gap-1.5 rounded-full bg-fill px-3.5 text-[13px] font-medium whitespace-nowrap text-label transition-all duration-200 hover:bg-fill-strong;
 }
-.capsule[aria-pressed='true'] { @apply bg-label text-canvas hover:bg-label; }
+.capsule[aria-pressed='true'] {
+  @apply text-[color:var(--on-accent)] hover:brightness-105;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 75%, var(--brand-2)));
+}
 
-.eyebrow { @apply text-[13px] font-semibold text-label-2; }
+.eyebrow { @apply text-[13px] font-semibold tracking-wide text-accent; }
 .tabular { font-variant-numeric: tabular-nums; }
 
 .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -114,7 +124,7 @@ select.input { @apply appearance-none; }
 .leaflet-bar a { background: var(--surface); color: var(--label); border-color: var(--sep); }
 .leaflet-control-attribution { background: color-mix(in srgb, var(--surface) 80%, transparent) !important; color: var(--label-2); }
 .leaflet-control-attribution a { color: var(--label-2); }
-.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.9) contrast(0.88) saturate(0.6); }
+.dark .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.86) contrast(0.9) saturate(0.5); }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; scroll-behavior: auto !important; }

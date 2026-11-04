@@ -63,6 +63,14 @@ public class Poi {
     @Builder.Default
     private Boolean active = true;
 
+    /** Quién lo dio de alta. Null = lugar curado por Rutea (seed o admin). */
+    @Column(name = "created_by_user_id")
+    private UUID createdByUserId;
+
+    /** Nombre del autor, copiado al crear el POI para no tener que unir con users al listar. */
+    @Column(name = "created_by_name")
+    private String createdByName;
+
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
