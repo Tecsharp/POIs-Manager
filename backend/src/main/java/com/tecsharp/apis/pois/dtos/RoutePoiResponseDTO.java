@@ -30,6 +30,12 @@ public class RoutePoiResponseDTO implements Serializable {
     @JsonProperty("buffer_km")
     private Double bufferKm;
 
+    /** false si OSRM no respondió y se usó línea recta entre waypoints. */
+    private Boolean routed;
+
+    @JsonProperty("route_geometry")
+    private List<WaypointDTO> routeGeometry;
+
     private List<RoutePoiItemDTO> pois;
 
     @JsonProperty("by_type")

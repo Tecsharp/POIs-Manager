@@ -32,5 +32,14 @@ public class RoutePoiItemDTO implements Serializable {
 
     @JsonProperty("distance_km")
     private Double distanceKm;
+
+    private Long upvotes;
+    private Long downvotes;
+
+    @JsonProperty("my_vote")
+    private Integer myVote;
+
+    @JsonProperty("created_by")
+    private String createdBy;
 }
 

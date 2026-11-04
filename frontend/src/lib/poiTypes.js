@@ -27,6 +27,13 @@ export const TYPE_LABELS = {
 
 export const ALL_TYPES = Object.keys(TYPE_LABELS)
 
+/**
+ * Categorías activas por defecto en los filtros. "transporte" y "otros" quedan ocultas al
+ * inicio para que el mapa no se sature de aeropuertos, escuelas, gimnasios, etc. — el viajero
+ * las puede activar a propósito; lo demás (naturaleza, comida, cultura, carretera...) sigue visible.
+ */
+export const DEFAULT_CATEGORIES = CATEGORIES.filter((c) => c.id !== 'transport' && c.id !== 'other').map((c) => c.id)
+
 export function categoryOf(type) {
   const t = String(type).toUpperCase()
   return CATEGORIES.find((c) => c.types.includes(t)) ?? CATEGORIES[CATEGORIES.length - 1]

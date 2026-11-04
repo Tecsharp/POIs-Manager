@@ -438,15 +438,6 @@
   "accepts_cards": true
  },
  {
-  "name": "Cajero automático Plaza Américas",
-  "type": "ATM",
-  "lat": 19.166,
-  "lng": -96.12,
-  "address": "Plaza Américas, Boca del Río, Veracruz",
-  "description": "Cajeros de varios bancos dentro de la plaza.",
-  "rating": 4.0
- },
- {
   "name": "Farmacia 24 h Centro Oaxaca",
   "type": "PHARMACY",
   "lat": 17.061,
@@ -455,14 +446,5 @@
   "description": "Abierta 24 horas.",
   "rating": 4.2,
   "accepts_cards": true
- },
- {
-  "name": "Estacionamiento Centro Histórico Puebla",
-  "type": "PARKING",
-  "lat": 19.044,
-  "lng": -98.196,
-  "address": "Centro Histórico, Puebla",
-  "description": "Estacionamiento vigilado 24 h, acepta motos.",
-  "rating": 4.1
  }
 ]

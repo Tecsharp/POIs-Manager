@@ -51,7 +51,11 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/pois/route").permitAll()
                         .requestMatchers(HttpMethod.GET, "/pois", "/pois/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/pois").hasRole("ADMIN")
+                        // Votar y crear POIs: cualquier cuenta registrada. Antes de la regla DELETE /pois/** (admin),
+                        // que si no atraparía también a DELETE /pois/{id}/vote.
+                        .requestMatchers(HttpMethod.POST, "/pois/*/vote").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/pois/*/vote").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/pois").authenticated()
                         .requestMatchers(HttpMethod.DELETE, "/pois/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.POST, "/auth/register", "/auth/login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")

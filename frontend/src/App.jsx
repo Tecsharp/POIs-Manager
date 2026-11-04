@@ -10,6 +10,7 @@ import Login from './pages/Login'
 import Register from './pages/Register'
 import Account from './pages/Account'
 import Admin from './pages/Admin'
+import AddPoi from './pages/AddPoi'
 import { useAuth } from './lib/auth'
 
 function RequireAuth({ children, admin = false }) {
@@ -38,6 +39,7 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/registro" element={<Register />} />
           <Route path="/cuenta" element={<RequireAuth><Account /></RequireAuth>} />
+          <Route path="/agregar" element={<RequireAuth><AddPoi /></RequireAuth>} />
           <Route path="/admin" element={<RequireAuth admin><Admin /></RequireAuth>} />
           <Route path="*" element={<NotFound />} />
         </Routes>

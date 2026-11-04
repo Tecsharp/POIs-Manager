@@ -7,7 +7,7 @@ import PoiListItem from '../components/PoiListItem'
 import PoiDetail from '../components/PoiDetail'
 import CodeBlock from '../components/CodeBlock'
 import { api, apiBaseUrl } from '../lib/api'
-import { categoryOf, typesFor } from '../lib/poiTypes'
+import { categoryOf, typesFor, DEFAULT_CATEGORIES } from '../lib/poiTypes'
 
 const PRESETS = {
   'cdmx-veracruz': { name: 'CDMX → Veracruz', points: [[19.4326, -99.1332], [19.0414, -98.2063], [18.85, -97.1], [19.5438, -96.9102], [19.1903, -96.1533]] },
@@ -20,12 +20,13 @@ export default function RoutePlanner() {
   const [params] = useSearchParams()
   const [points, setPoints] = useState(PRESETS[params.get('preset')]?.points ?? [])
   const [buffer, setBuffer] = useState(10)
-  const [cats, setCats] = useState([])
+  const [cats, setCats] = useState(DEFAULT_CATEGORIES)
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [selected, setSelected] = useState(null)
   const [showCode, setShowCode] = useState(false)
+  const [directions, setDirections] = useState(null)
 
   const body = {
     waypoints: points.map(([lat, lng]) => ({ lat: +lat.toFixed(5), lng: +lng.toFixed(5) })),
@@ -55,7 +56,11 @@ export default function RoutePlanner() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(points), buffer, JSON.stringify(cats)])
 
-  const loadPreset = (key) => { setSelected(null); setPoints(PRESETS[key].points) }
+  const loadPreset = (key) => { setSelected(null); setDirections(null); setPoints(PRESETS[key].points) }
+
+  const routeLine = result?.routed && result?.route_geometry?.length > 1
+    ? result.route_geometry.map((p) => [p.lat, p.lng])
+    : points
 
   const summary = Object.values(Object.entries(result?.by_type ?? {}).reduce((acc, [t, n]) => {
     const c = categoryOf(t)
@@ -109,12 +114,16 @@ export default function RoutePlanner() {
                 <Stat label="Desvío" value={`${result.buffer_km} km`} />
                 <Stat label="Lugares" value={loading ? '…' : result.total} />
               </dl>
+              <p className="flex items-center gap-1.5 px-3 pb-1 pt-2 text-[12px] text-label-2">
+                <RouteIcon className="size-3" aria-hidden />
+                {result.routed ? 'Ruta real por carretera' : 'Línea recta — no se encontró ruta por carretera'}
+              </p>
               {summary.length > 0 && (
-                <p className="px-3 pb-1 pt-3 text-[13px] text-label-2">
+                <p className="px-3 pb-1 pt-1 text-[13px] text-label-2">
                   {summary.map(({ cat, n }) => `${n} ${cat.label.toLowerCase()}`).join(' · ')}
                 </p>
               )}
-              {selected && <div className="my-2"><PoiDetail id={selected} onClose={() => setSelected(null)} /></div>}
+              {selected && <div className="my-2"><PoiDetail id={selected} onClose={() => { setSelected(null); setDirections(null) }} onDirections={setDirections} /></div>}
               <div className="mt-1">
                 {result.pois.map((p) => <PoiListItem key={p.id} poi={p} active={p.id === selected} onClick={() => setSelected(p.id)} />)}
               </div>
@@ -138,10 +147,12 @@ export default function RoutePlanner() {
           selectedId={selected}
           onSelect={(p) => setSelected(p.id)}
           onMapClick={({ lat, lng }) => points.length < 50 && setPoints([...points, [lat, lng]])}
-          route={points}
-          fitPoints={points.length > 1 ? points : null}
+          route={points.length > 1 ? routeLine : []}
+          waypoints={points}
+          fitPoints={points.length > 1 ? routeLine : null}
           center={points[0] ?? [19.4326, -99.1332]}
           zoom={points.length ? 9 : 7}
+          directions={directions}
         />
       </div>
     </div>
