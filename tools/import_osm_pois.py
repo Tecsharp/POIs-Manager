@@ -19,12 +19,27 @@ lo que falte.
 """
 import argparse
 import json
+import socket
 import ssl
 import sys
 import time
 import urllib.error
 import urllib.request
 from pathlib import Path
+
+# Si el host tiene IPv6 "habilitado" en el DNS pero sin ruta real (común en VPS/contenedores),
+# Python intenta la IPv6 primero y falla con "Network is unreachable" aunque IPv4 sí funcione.
+# Se fuerza IPv4 para todo el script.
+_orig_getaddrinfo = socket.getaddrinfo
+
+
+def _ipv4_only_getaddrinfo(*args, **kwargs):
+    results = _orig_getaddrinfo(*args, **kwargs)
+    ipv4 = [r for r in results if r[0] == socket.AF_INET]
+    return ipv4 or results
+
+
+socket.getaddrinfo = _ipv4_only_getaddrinfo
 
 try:
     # macOS Python builds a veces no traen el paquete de certificados raíz del sistema
