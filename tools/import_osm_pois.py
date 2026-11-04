@@ -8,6 +8,7 @@ Solo librería estándar (nada que instalar). Uso:
     python3 tools/import_osm_pois.py
     python3 tools/import_osm_pois.py --states MX-VER,MX-PUE   # probar con pocos estados
     python3 tools/import_osm_pois.py --tags fuel,museum       # probar con pocas categorías
+    python3 tools/import_osm_pois.py --host https://overpass.osm.ch/api/interpreter
 
 Datos: © colaboradores de OpenStreetMap, licencia ODbL — ver https://www.openstreetmap.org/copyright
 Overpass es un servicio público gratuito compartido: este script deja ~2s entre
@@ -24,6 +25,7 @@ import ssl
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from pathlib import Path
 
@@ -50,11 +52,20 @@ try:
 except ImportError:
     SSL_CONTEXT = ssl.create_default_context()
 
-OVERPASS_URL = "https://overpass-api.de/api/interpreter"
+# Instancias públicas de Overpass. Se prueban en orden; si una falla, se pasa a la
+# siguiente. Ninguna es perfecta: cambian de disponibilidad a lo largo del día.
+OVERPASS_HOSTS = [
+    "https://overpass-api.de/api/interpreter",
+    "https://overpass.private.coffee/api/interpreter",
+    "https://overpass.osm.ch/api/interpreter",
+    "https://overpass.openstreetmap.fr/api/interpreter",
+    "https://overpass.kumi.systems/api/interpreter",
+]
+
 USER_AGENT = "Rutea-POI-Importer/1.0 (+https://github.com/Tecsharp/POIs-Manager)"
 REQUEST_TIMEOUT_S = 200
 COURTESY_DELAY_S = 2.0
-MAX_RETRIES = 2
+MAX_RETRIES = 2  # vueltas completas sobre la lista de hosts
 
 OUTPUT_PATH = Path(__file__).resolve().parent.parent / "backend/src/main/resources/seed/pois.json"
 
@@ -107,19 +118,67 @@ STATES = [
 ]
 
 
+def _read_json(req):
+    with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT_S, context=SSL_CONTEXT) as resp:
+        return json.loads(resp.read().decode("utf-8"))
+
+
+def _try_host(host: str, full_query: str):
+    """Intenta la consulta contra un host. Primero POST urlencoded (estándar),
+    y si falla, GET con ?data= (necesario para algunas instancias como osm.ch)."""
+    errors = []
+
+    # 1) POST con body "data=<consulta urlencoded>" — es lo que espera Overpass
+    try:
+        body = urllib.parse.urlencode({"data": full_query}).encode("utf-8")
+        req = urllib.request.Request(
+            host, data=body,
+            headers={"User-Agent": USER_AGENT,
+                     "Content-Type": "application/x-www-form-urlencoded"},
+        )
+        return _read_json(req)
+    except urllib.error.HTTPError as e:
+        try:
+            detail = e.read().decode("utf-8", "replace").strip()[:200]
+        except Exception:
+            detail = ""
+        errors.append(f"POST HTTP {e.code}: {detail}")
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
+        errors.append(f"POST: {e}")
+
+    # 2) GET con ?data=<consulta urlencoded>
+    try:
+        url = host + "?" + urllib.parse.urlencode({"data": full_query})
+        req = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        return _read_json(req)
+    except urllib.error.HTTPError as e:
+        try:
+            detail = e.read().decode("utf-8", "replace").strip()[:200]
+        except Exception:
+            detail = ""
+        errors.append(f"GET HTTP {e.code}: {detail}")
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
+        errors.append(f"GET: {e}")
+
+    raise RuntimeError(" | ".join(errors))
+
+
 def overpass_query(ql: str) -> dict:
-    body = f"[out:json][timeout:180];{ql}".encode("utf-8")
-    req = urllib.request.Request(OVERPASS_URL, data=body, headers={"User-Agent": USER_AGENT})
+    full_query = f"[out:json][timeout:180];{ql}"
     last_err = None
     for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            with urllib.request.urlopen(req, timeout=REQUEST_TIMEOUT_S, context=SSL_CONTEXT) as resp:
-                return json.loads(resp.read().decode("utf-8"))
-        except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as e:
-            last_err = e
-            print(f"    intento {attempt}/{MAX_RETRIES} falló ({e}); reintentando…", file=sys.stderr)
+        for host in OVERPASS_HOSTS:
+            try:
+                data = _try_host(host, full_query)
+                print(f"    ok ← {host}", file=sys.stderr)
+                return data
+            except RuntimeError as e:
+                last_err = f"{host} → {e}"
+                print(f"    falló {host}: {e}", file=sys.stderr)
+        if attempt < MAX_RETRIES:
+            print(f"  vuelta {attempt}/{MAX_RETRIES} sin éxito; esperando 5s…", file=sys.stderr)
             time.sleep(5)
-    raise RuntimeError(f"Overpass no respondió tras {MAX_RETRIES} intentos: {last_err}")
+    raise RuntimeError(f"Overpass no respondió en ningún host tras {MAX_RETRIES} vueltas. Último error: {last_err}")
 
 
 def tag_filter_block(tags, area_ref="area.mx"):
@@ -207,11 +266,18 @@ def write_output(seen, out_path):
 
 
 def main():
+    global OVERPASS_HOSTS
+
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--states", help="Códigos ISO 3166-2 separados por coma (default: los 32)")
     parser.add_argument("--tags", help="Nombres de tag de OSM separados por coma, ej. fuel,museum (default: todos)")
     parser.add_argument("--out", default=str(OUTPUT_PATH), help="Ruta de salida")
+    parser.add_argument("--host", action="append",
+                        help="Forzar uno o más hosts Overpass (puede repetirse). Si se indica, se usa solo esta lista.")
     args = parser.parse_args()
+
+    if args.host:
+        OVERPASS_HOSTS = args.host
 
     states = STATES
     if args.states:
