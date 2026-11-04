@@ -35,6 +35,49 @@ La contraseña del admin se sincroniza desde `.env` en cada arranque del backend
 
 El ruteo por carretera usa por defecto el servidor demo público de OSRM (gratis, sin key, sin SLA). Para apuntar a un OSRM propio, agrega `OSRM_URL=...` al `environment` del servicio `backend` en `docker-compose.yml` (ver `pois.routing.*` en `backend/src/main/resources/application.properties`).
 
+## Importar lugares reales de OpenStreetMap
+
+El seed de ~42 lugares es solo demo (escrito a mano). Para llenar la base con datos reales
+de México (gasolineras, restaurantes, museos, hoteles, miradores, templos…) hay un
+importador que descarga de [Overpass API](https://overpass-api.de) (datos de OpenStreetMap,
+licencia [ODbL](https://www.openstreetmap.org/copyright)) y genera un `seed/pois.json` nuevo:
+
+```bash
+python3 tools/import_osm_pois.py
+```
+
+Solo necesita Python 3 (sin instalar nada) e internet. Con México completo puede tardar
+entre 30 y 90+ minutos — Overpass es un servicio público compartido, el script le da ~2s
+de cortesía entre consulta y consulta para no saturarlo. Se puede interrumpir con Ctrl+C:
+guarda avance parcial en el archivo después de cada estado, así que no se pierde todo.
+
+Para probar rápido con un alcance chico antes de lanzar el país completo:
+
+```bash
+python3 tools/import_osm_pois.py --states MX-VER,MX-PUE --tags museum,fuel,restaurant
+```
+
+Cuando termine, revisa cuántos lugares bajó y vuelve a levantar todo desde cero para que
+se siembren (esto borra los datos actuales de la base, incluidas cuentas y API keys creadas
+en local):
+
+```bash
+python3 -c "import json;print(len(json.load(open('backend/src/main/resources/seed/pois.json'))))"
+docker compose down -v
+./setup.sh
+```
+
+El sembrado corre en segundo plano al arrancar el backend (no bloquea el arranque ni el
+healthcheck, aunque sean cientos de miles de filas) — revisa el progreso con:
+
+```bash
+docker compose logs -f backend | grep -i sembrando
+```
+
+Los tipos de OSM que importa (y los que deja fuera a propósito para no saturar el mapa,
+como `parking`, `atm`, `bank`, gimnasios o escuelas) están en `TAG_MAP` dentro del script;
+agregar una categoría nueva es agregar una línea ahí.
+
 ## Desarrollo local
 
 ```bash
