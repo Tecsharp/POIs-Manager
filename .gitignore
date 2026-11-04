@@ -5,3 +5,4 @@ frontend/dist/
 backend/target/
 .idea/
 *.iml
+__pycache__/
